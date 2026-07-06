@@ -117,9 +117,12 @@ with st.sidebar:
 # =====================================================
 # 4. MAIN HUB WORKSPACE DESIGN
 # =====================================================
+# =====================================================
+# 4. MAIN HUB WORKSPACE DESIGN
+# =====================================================
 hero_logo, hero_headline = st.columns([0.08, 0.92])
 with hero_logo:
-    st.markdown("<h1 style='font-size: 52px; margin:0; padding-top:5px;'>🛡️</h1>", unsafe_style_html=True)
+    st.markdown("<h1 style='font-size: 52px; margin:0; padding-top:5px;'>🛡️</h1>", unsafe_allow_html=True) # <-- FIXED THIS LINE
 with hero_headline:
     st.title("AI Policy & Governance Classification Hub")
     st.caption("Supervised Track Milestone: Vector-Space Text Extraction & Geometrical Neighborhood Mapping")
