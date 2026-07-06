@@ -19,6 +19,17 @@ st.set_page_config(
 )
 
 # Custom Premium Styling Injections
+# =====================================================
+# 1. ENTERPRISE PAGE CONFIGURATION & THEME
+# =====================================================
+st.set_page_config(
+    page_title="AI Policy Classification System",
+    page_icon="🛡️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Premium Custom CSS Injection for Enterprise Feel
 st.markdown("""
     <style>
     .main .block-container { padding-top: 1.5rem; padding-bottom: 2rem; max-width: 95%; }
@@ -33,7 +44,7 @@ st.markdown("""
     .stButton>button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4) !important; }
     div[data-baseweb="textarea"] { border-radius: 8px !important; }
     </style>
-""", unsafe_style_html=True)
+""", unsafe_allow_html=True)  # <-- FIXED THIS LINE
 
 # =====================================================
 # 2. CACHED LIVE PIPELINE TRAINING (SELF-CONTAINED)
