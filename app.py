@@ -42,7 +42,7 @@ st.markdown("""
 def initialize_and_train_pipeline():
     try:
         # Load the cleaned dataset directly from your local repository
-        df = pd.read_csv('ai_policy_tracker.csv')
+        df = pd.read_csv('ai_policy_tracker_2026.csv')
         df['title'] = df['title'].fillna("").astype(str)
         df['policy_impact_score'] = pd.to_numeric(df['policy_impact_score'], errors='coerce').fillna(0)
 
