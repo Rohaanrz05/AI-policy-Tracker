@@ -93,10 +93,13 @@ knn_model, tfidf, svd, target_encoder, scaler, model_accuracy, error_msg = initi
 # =====================================================
 # 3. SIDEBAR CONTROLS & META PANEL
 # =====================================================
+# =====================================================
+# 3. SIDEBAR CONTROLS & META PANEL
+# =====================================================
 with st.sidebar:
-    st.markdown("<div style='text-align: center; padding-bottom: 1rem;'>", unsafe_style_html=True)
+    st.markdown("<div style='text-align: center; padding-bottom: 1rem;'>", unsafe_allow_html=True) # <-- FIXED THIS LINE TOO
     st.image("https://img.icons8.com/nolan/128/security-checked.png", width=65)
-    st.markdown("</div>", unsafe_style_html=True)
+    st.markdown("</div>", unsafe_allow_html=True) # <-- Ensure this line matches as well
     
     st.title("System Framework")
     st.caption("DecodeLabs Advanced Analytics Stack")
