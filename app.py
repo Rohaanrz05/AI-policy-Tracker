@@ -18,18 +18,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Premium Styling Injections
-# =====================================================
-# 1. ENTERPRISE PAGE CONFIGURATION & THEME
-# =====================================================
-st.set_page_config(
-    page_title="AI Policy Classification System",
-    page_icon="🛡️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# Premium Custom CSS Injection for Enterprise Feel
+# Premium Style Overrides
 st.markdown("""
     <style>
     .main .block-container { padding-top: 1.5rem; padding-bottom: 2rem; max-width: 95%; }
@@ -44,7 +33,7 @@ st.markdown("""
     .stButton>button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4) !important; }
     div[data-baseweb="textarea"] { border-radius: 8px !important; }
     </style>
-""", unsafe_allow_html=True)  # <-- FIXED THIS LINE
+""", unsafe_allow_html=True)
 
 # =====================================================
 # 2. CACHED LIVE PIPELINE TRAINING (SELF-CONTAINED)
@@ -52,32 +41,25 @@ st.markdown("""
 @st.cache_resource
 def initialize_and_train_pipeline():
     try:
-        # Load the cleaned dataset directly from your local repository
-        df = pd.read_csv('ai_policy_tracker_2026.csv')
+        df = pd.read_csv('cleaned_ai_policy_tracker.csv')
         df['title'] = df['title'].fillna("").astype(str)
         df['policy_impact_score'] = pd.to_numeric(df['policy_impact_score'], errors='coerce').fillna(0)
 
-        # Encode target categorization labels
         target_encoder = LabelEncoder()
         y = target_encoder.fit_transform(df['category'].astype(str))
 
-        # Build TF-IDF Semantic Space
         tfidf = TfidfVectorizer(max_features=500, stop_words='english')
         X_tfidf = tfidf.fit_transform(df['title'])
 
-        # Compress text vectors to 5 continuous spatial dimensions
         svd = TruncatedSVD(n_components=5, random_state=42)
         X_text_features = svd.fit_transform(X_tfidf)
 
-        # Stack text features together with the numeric feature (5 + 1 = 6 Features)
         X_numeric = df['policy_impact_score'].values.reshape(-1, 1)
         X_combined = np.hstack((X_text_features, X_numeric))
 
-        # Standardize the feature workspace layers uniformly
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X_combined)
 
-        # Train the mandatory KNeighborsClassifier engine node
         X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
         knn_model = KNeighborsClassifier(n_neighbors=5)
         knn_model.fit(X_train, y_train)
@@ -87,19 +69,15 @@ def initialize_and_train_pipeline():
     except Exception as e:
         return None, None, None, None, None, 0.0, str(e)
 
-# Run the live network configuration pipeline once when application mounts
 knn_model, tfidf, svd, target_encoder, scaler, model_accuracy, error_msg = initialize_and_train_pipeline()
 
 # =====================================================
 # 3. SIDEBAR CONTROLS & META PANEL
 # =====================================================
-# =====================================================
-# 3. SIDEBAR CONTROLS & META PANEL
-# =====================================================
 with st.sidebar:
-    st.markdown("<div style='text-align: center; padding-bottom: 1rem;'>", unsafe_allow_html=True) # <-- FIXED THIS LINE TOO
+    st.markdown("<div style='text-align: center; padding-bottom: 1rem;'>", unsafe_allow_html=True)
     st.image("https://img.icons8.com/nolan/128/security-checked.png", width=65)
-    st.markdown("</div>", unsafe_allow_html=True) # <-- Ensure this line matches as well
+    st.markdown("</div>", unsafe_allow_html=True)
     
     st.title("System Framework")
     st.caption("DecodeLabs Advanced Analytics Stack")
@@ -117,12 +95,9 @@ with st.sidebar:
 # =====================================================
 # 4. MAIN HUB WORKSPACE DESIGN
 # =====================================================
-# =====================================================
-# 4. MAIN HUB WORKSPACE DESIGN
-# =====================================================
 hero_logo, hero_headline = st.columns([0.08, 0.92])
 with hero_logo:
-    st.markdown("<h1 style='font-size: 52px; margin:0; padding-top:5px;'>🛡️</h1>", unsafe_allow_html=True) # <-- FIXED THIS LINE
+    st.markdown("<h1 style='font-size: 52px; margin:0; padding-top:5px;'>🛡️</h1>", unsafe_allow_html=True)
 with hero_headline:
     st.title("AI Policy & Governance Classification Hub")
     st.caption("Supervised Track Milestone: Vector-Space Text Extraction & Geometrical Neighborhood Mapping")
@@ -136,7 +111,6 @@ st.markdown("---")
 if error_msg:
     st.error(f"❌ Initialization Error: Could not read 'cleaned_ai_policy_tracker.csv'. Details: {error_msg}")
 else:
-    # Set up twin columns for the main workspace grid
     col_input, col_output = st.columns([1.1, 0.9], gap="large")
     
     with col_input:
@@ -157,7 +131,7 @@ else:
             help="Assigns structural parameter weight regarding the scope of the global regulatory item."
         )
         
-        st.markdown("<br>", unsafe_style_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
         compute_trigger = st.button("🚀 Analyze Framework Telemetry")
 
     with col_output:
@@ -189,7 +163,6 @@ else:
                     
                     status.update(label="Feature Computation Complete!", state="complete")
                 
-                # Presentation Interface Metrics Block
                 st.markdown("### 🎯 Classification Target Mapping")
                 
                 st.markdown(f"""
@@ -198,7 +171,7 @@ else:
                         <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #818CF8;">Assigned Structural Taxonomy</span>
                         <h2 style="margin: 0.3rem 0 0 0; color: #FFFFFF; font-size: 26px; font-weight: 700;">{predicted_class}</h2>
                     </div>
-                """, unsafe_style_html=True)
+                """, unsafe_allow_html=True)
                 
                 metric_col1, metric_col2 = st.columns(2)
                 with metric_col1:
@@ -215,7 +188,6 @@ else:
             ```
             """)
 
-# Footer Layout
-st.markdown("<br><br>", unsafe_style_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 st.divider()
 st.caption("🔒 DecodeLabs AI Internship — Phase 2 Predictive Classification Pipeline Node.")
