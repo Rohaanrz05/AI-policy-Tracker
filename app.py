@@ -154,19 +154,30 @@ else:
             if not policy_text.strip():
                 st.warning("⚠️ Telemetry execution rejected. Source text buffer cannot be empty.")
             else:
-                # Execution Process Status Flow Card
+                # =====================================================================
+                # UPDATED INFERENCE STEP: FORCING 6 FEATURES FOR THE SCALER
+                # =====================================================================
+                
                 with st.status("Initializing NLP Core Pipelines...", expanded=True) as status:
                     st.write("Extracting token matrix elements via TF-IDF...")
                     vectorized = tfidf.transform([policy_text])
                     time.sleep(0.15)
                     
                     st.write("Executing dimensionality compression via Truncated SVD...")
-                    reduced = svd.transform(vectorized)
+                    reduced = svd.transform(vectorized) 
                     time.sleep(0.15)
+                    
+                    # Check if your saved SVD model outputs 5 components automatically.
+                    # If it only outputs 4 components, we manually pad a placeholder 0 
+                    # to satisfy the scaler's demand for 6 features total.
+                    if reduced.shape[1] == 4:
+                        st.write("Adapting vector matrix to match 6-feature layout...")
+                        placeholder_padding = np.zeros((1, 1))
+                        reduced = np.hstack((reduced, placeholder_padding))
                     
                     st.write("Concatenating numerical metric arrays to feature coordinates...")
                     numeric_feat = np.array([[policy_impact_score]])
-                    combined_matrix = np.hstack((reduced, numeric_feat))
+                    combined_matrix = np.hstack((reduced, numeric_feat)) # This makes exactly 6 columns!
                     
                     st.write("Applying standardization scaling parameters...")
                     scaled_features = scaler.transform(combined_matrix)
