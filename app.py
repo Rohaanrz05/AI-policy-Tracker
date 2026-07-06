@@ -5,7 +5,7 @@ import joblib
 import time
 
 # =====================================================
-# 1. ADVANCED PAGE CONFIGURATION
+# 1. ENTERPRISE PAGE CONFIGURATION
 # =====================================================
 st.set_page_config(
     page_title="AI Policy Classification System",
@@ -14,195 +14,204 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Premium Custom CSS Injection for Enterprise Feel
+# Custom Premium Styling Injections
 st.markdown("""
     <style>
-    /* Main Background & Fonts */
+    /* Main Canvas Optimization */
     .main .block-container {
-        padding-top: 2rem;
+        padding-top: 1.5rem;
         padding-bottom: 2rem;
+        max-width: 95%;
     }
-    /* Metric Card Custom Style */
+    
+    /* Premium UI Metric Typography */
     div[data-testid="stMetricValue"] {
-        font-size: 24px;
-        color: #00FFCC;
-        font-weight: 700;
+        font-size: 26px !important;
+        color: #6366F1 !important;
+        font-weight: 700 !important;
     }
-    /* Headers & Branding Accents */
-    h1 {
-        color: #FFFFFF;
-        font-weight: 800 !important;
-        letter-spacing: -0.5px;
+    div[data-testid="stMetricLabel"] {
+        font-size: 13px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
     }
+    
+    /* Button UX Overhaul */
     .stButton>button {
-        background-color: #4F46E5 !important;
+        background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%) !important;
         color: white !important;
         border-radius: 8px !important;
         border: none !important;
-        padding: 0.6rem 2rem !important;
+        padding: 0.7rem 2rem !important;
         font-weight: 600 !important;
+        letter-spacing: 0.5px;
         width: 100%;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease-in-out;
     }
     .stButton>button:hover {
-        background-color: #6366F1 !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4) !important;
+    }
+    
+    /* Input Form Accent Border */
+    div[data-baseweb="textarea"] {
+        border-radius: 8px !important;
     }
     </style>
 """, unsafe_style_html=True)
 
 # =====================================================
-# 2. OPTIMIZED RESOURCE INGESTION
+# 2. CACHED MODEL ARTIFACT INGESTION
 # =====================================================
 @st.cache_resource
-def load_artifacts():
+def load_pipeline_artifacts():
     try:
         model = joblib.load("knn_model.pkl")
         tfidf = joblib.load("tfidf_vectorizer.pkl")
         svd = joblib.load("svd_transformer.pkl")
         encoder = joblib.load("target_encoder.pkl")
-        return model, tfidf, svd, encoder
+        scaler = joblib.load("scaler.pkl")  # Ingesting the scaler artifact
+        return model, tfidf, svd, encoder, scaler
     except Exception as e:
-        st.error(f"Error loading model pkl artifacts: {e}")
-        return None, None, None, None
+        return None, None, None, None, None
 
-model, tfidf, svd, encoder = load_artifacts()
+model, tfidf, svd, encoder, scaler = load_pipeline_artifacts()
 
 # =====================================================
-# 3. SIDEBAR UTILITIES & BRANDING
+# 3. SIDEBAR CONTROLS & META PANEL
 # =====================================================
 with st.sidebar:
-    st.image("https://img.icons8.com/nolan/128/security-checked.png", width=70)
-    st.title("Control Panel")
-    st.caption("DecodeLabs AI Architecture Framework")
+    st.markdown("<div style='text-align: center; padding-bottom: 1rem;'>", unsafe_style_html=True)
+    st.image("https://img.icons8.com/nolan/128/security-checked.png", width=65)
+    st.markdown("</div>", unsafe_style_html=True)
+    
+    st.title("System Framework")
+    st.caption("DecodeLabs Advanced Analytics Stack")
     st.markdown("---")
     
+    # Metadata Groupings
     st.markdown("### 👤 Engineer Assignment")
-    st.info("**Developer:** M. Rohaan Zahid\n\n**Role:** AI Engineer Intern")
+    st.info("**Developer:** M. Rohaan Zahid\n\n**Assignment Track:** AI Engineering Intern")
     
-    st.markdown("### 🛠️ Pipeline Node Details")
+    st.markdown("### ⚙️ Engine Nodes")
     st.markdown("""
-    - **NLP Engine:** TF-IDF Matrix Tokenizer
-    - **Dimensional Reduction:** Truncated SVD Components
-    - **Classifier Engine:** K-Nearest Neighbors ($K=5$)
-    - **Scaling Topology:** StandardScaler Norm
+    - **NLP Vectorizer:** TF-IDF Tokenizer
+    - **Dimensional Space:** Truncated SVD 
+    - **Classifier Engine:** KNN ($K=5$)
+    - **Feature Scaling:** StandardScaler
     """)
     st.markdown("---")
-    st.caption("© 2026 DecodeLabs | Batch 2026 [cite: 4]")
+    st.caption("🔒 Architecture Security Node — Batch 2026")
 
 # =====================================================
-# 4. MAIN USER INTERFACE WORKSPACE
+# 4. MAIN HUB WORKSPACE Layout
 # =====================================================
-
-# Header Hero Section
-col_logo, col_title = st.columns([0.1, 0.9])
-with col_logo:
-    st.markdown("<h1 style='font-size: 50px; margin:0;'>🛡️</h1>", unsafe_style_html=True)
-with col_title:
-    st.title("AI Governance & Policy Classification Platform")
-    st.caption("Production Pipeline Node: Text Extraction, Geometrical Dimensional Reduction, & Classification Model Lookup [cite: 33]")
+# Header Hero Section Matrix
+hero_logo, hero_headline = st.columns([0.08, 0.92])
+with hero_logo:
+    st.markdown("<h1 style='font-size: 52px; margin:0; padding-top:5px;'>🛡️</h1>", unsafe_style_html=True)
+with hero_headline:
+    st.title("AI Policy & Governance Classification Hub")
+    st.caption("Supervised Track Milestone: Vector-Space Text Extraction & Geometrical Neighborhood Mapping")
 
 st.markdown("""
-This platform processes public policy texts into structured, vector-mapped spaces. 
-By translating semantic textual weights alongside strategic impact indices, the integrated **K-Nearest Neighbors (KNN)** architecture assigns discrete administrative categories with high geometric precision[cite: 10, 143].
+This production interface utilizes continuous **TF-IDF mapping** alongside a compressed **Truncated SVD pipeline** to classify public policy items with strict geometric accuracy.
 """)
-
 st.markdown("---")
 
 if model is None:
-    st.critical("Pipeline Initialization Blocked. Ensure model pickle files are inside the root directory.")
+    st.error("❌ Critical System Alert: Pipeline binaries (`.pkl` objects) are missing from the current working directory.")
 else:
-    # Twin Workspace Columns Split
+    # Dashboard Split Columns Grid Setup
     col_input, col_output = st.columns([1.1, 0.9], gap="large")
     
     with col_input:
-        st.subheader("📥 Data Ingestion Workspace")
+        st.markdown("### 📥 Stream Ingestion Window")
         
         policy_text = st.text_area(
-            "Policy Document Core (Title or Statement Mapping Node)",
-            height=140,
-            placeholder="Type or paste the structural text here... (e.g., European Parliament votes on risk-level categorization matrix for generative models.)"
+            "Raw Policy Document Context (Title / Provision Statement)",
+            height=150,
+            placeholder="Insert standard policy language here... (e.g., Global trade delegates draft strict restrictions regarding automated model verification protocols...)"
         )
         
-        # FIXES THE SHAPE MISMATCH ERROR: Collect the missing numeric dimension required by the scaler
+        # Fixing Feature Dimensions: Capturing the 5th continuous component
         policy_impact_score = st.slider(
-            "Policy Impact Matrix Score ($W_{impact}$)",
+            "Quantitative Policy Impact Metric Value ($W_{impact}$)",
             min_value=0.0,
             max_value=100.0,
             value=50.0,
             step=0.5,
-            help="Quantitative metric evaluating the scope of the global regulatory or compliance impact."
+            help="Assigns structural parameter weight regarding the scope of the global regulatory item."
         )
         
         st.markdown("<br>", unsafe_style_html=True)
-        trigger_prediction = st.button("🚀 Process & Classify Vector")
+        compute_trigger = st.button("🚀 Analyze Framework Telemetry")
 
     with col_output:
-        st.subheader("📊 Architectural Analytics Engine")
+        st.markdown("### 📊 Predictive Engine Analytics")
         
-        if trigger_prediction:
+        if compute_trigger:
             if not policy_text.strip():
-                st.warning("⚠️ Input sequence rejected. Please input text before execution.")
+                st.warning("⚠️ Telemetry execution rejected. Source text buffer cannot be empty.")
             else:
-                # Execution Process Feedback Block
-                with st.status("Computing NLP Vectors & Geometrical Distances...", expanded=True) as status:
-                    st.write("Tokenizing unstructured string vectors via TF-IDF...")
+                # Execution Process Status Flow Card
+                with st.status("Initializing NLP Core Pipelines...", expanded=True) as status:
+                    st.write("Extracting token matrix elements via TF-IDF...")
                     vectorized = tfidf.transform([policy_text])
-                    time.sleep(0.2)
+                    time.sleep(0.15)
                     
-                    st.write("Compressing sparse matrix data via Truncated SVD...")
+                    st.write("Executing dimensionality compression via Truncated SVD...")
                     reduced = svd.transform(vectorized)
-                    time.sleep(0.2)
+                    time.sleep(0.15)
                     
-                    st.write("Assembling structural feature layers with impact metrics...")
-                    # Combine the text components with your numerical entry to rebuild the 5 features
+                    st.write("Concatenating numerical metric arrays to feature coordinates...")
                     numeric_feat = np.array([[policy_impact_score]])
-                    combined_features = np.hstack((reduced, numeric_feat))
+                    combined_matrix = np.hstack((reduced, numeric_feat))
                     
-                    # Optional: Scaler step if saved during training
-                    # If you saved your scaler object, load it in load_models and use it here:
-                    # combined_features = scaler.transform(combined_features)
-                    
-                    st.write("Executing K-Nearest Neighbors space coordinate matching...")
-                    prediction = model.predict(combined_features)
-                    predicted_category = encoder.inverse_transform(prediction)[0]
+                    st.write("Applying standardization scaling parameters...")
+                    scaled_features = scaler.transform(combined_matrix)
                     time.sleep(0.1)
                     
-                    status.update(label="Classification Vector Processed Successfully!", state="complete")
+                    st.write("Running geometric distance search across KNN tree nodes...")
+                    prediction = model.predict(scaled_features)
+                    predicted_class = encoder.inverse_transform(prediction)[0]
+                    
+                    status.update(label="Feature Computation Complete!", state="complete")
                 
-                # Polished Metrics Dashboard Output Layout
-                st.markdown("### 🎯 Classification Result")
+                # Presentation Interface Metrics Block
+                st.markdown("### 🎯 Classification Target Mapping")
                 
-                # Visual highlight container for the output classification
+                # Highlight card for classification taxonomy
                 st.markdown(f"""
-                    <div style="background-color: rgba(79, 70, 229, 0.1); border-left: 5px solid #4F46E5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                        <span style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #A5B4FC;">Identified Taxonomy Class</span>
-                        <h2 style="margin: 0.5rem 0 0 0; color: #FFFFFF; font-size: 28px;">{predicted_category}</h2>
+                    <div style="background: linear-gradient(90deg, rgba(79,70,229,0.15) 0%, rgba(99,102,241,0.03) 100%); 
+                                border-left: 5px solid #4F46E5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #818CF8;">Assigned Structural Taxonomy</span>
+                        <h2 style="margin: 0.3rem 0 0 0; color: #FFFFFF; font-size: 26px; font-weight: 700;">{predicted_class}</h2>
                     </div>
                 """, unsafe_style_html=True)
                 
-                # Context Meta Metrics Indicators
-                m_col1, m_col2 = st.columns(2)
-                with m_col1:
-                    st.metric(label="Assigned Impact Score", value=f"{policy_impact_score} / 100")
-                with m_col2:
-                    st.metric(label="Inference Status", value="Verified Active")
-                    
+                # Meta Indicators Columns Row
+                metric_col1, metric_col2 = st.columns(2)
+                with metric_col1:
+                    st.metric(label="Ingested Impact Rating", value=f"{policy_impact_score} / 100")
+                with metric_col2:
+                    st.metric(label="Inference State", value="Active / Normal")
         else:
-            # Idle placeholder display state before trigger execution
-            st.info("System Standby: Awaiting pipeline telemetry execution from input panel.")
+            # Standby Placeholder Block State
+            st.info("💡 Main Interface Standby: Awaiting vector transmission from the left-hand configuration window.")
             
-            # Static Graphic Blueprint Layout to keep page layout visually balanced
+            # Blueprint Code Frame Block Layout Representation
             st.markdown("""
-            ```
-            [Text Stream] ──> [TF-IDF Space] ──> [SVD Compress] ──┐
-                                                                 ├──> [KNN Model] ──> Category Target
-            [Impact Index] ──────────────────────────────────────┘
+            ```text
+            [ Text Entry Stream ] ──> [ TF-IDF Processing ] ──> [ SVD Dimensional Compression ] ──┐
+                                                                                                 ├──> [ Scaler Engine ] ──> [ KNN Engine ]
+            [ Slider Metric Value ] ─────────────────────────────────────────────────────────────┘
             ```
             """)
 
-# Footer Layout
+# =====================================================
+# 5. FOOTER ARCHITECTURE
+# =====================================================
 st.markdown("<br><br>", unsafe_style_html=True)
 st.divider()
-st.caption("🔒 Confidential Infrastructure Node — DecodeLabs Supervised Machine Learning Track Project 2[cite: 2, 7].")
+st.caption("🔒 DecodeLabs AI Internship — Phase 2 Predictive Classification Pipeline Node.")
