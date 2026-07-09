@@ -36,12 +36,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================================
-# 2. CACHED LIVE PIPELINE TRAINING (SELF-CONTAINED)
+# 2. CACHED LIVE PIPELINE TRAINING (FIXED FILENAMES)
 # =====================================================
 @st.cache_resource
 def initialize_and_train_pipeline():
     try:
-        df = pd.read_csv('ai_policy_tracker_2026.csv')
+        # Fixed: Ensuring standard filename is consistently referenced
+        DATA_FILENAME = 'ai_policy_tracker_2026 (1).csv'
+        df = pd.read_csv(DATA_FILENAME)
+        
         df['title'] = df['title'].fillna("").astype(str)
         df['policy_impact_score'] = pd.to_numeric(df['policy_impact_score'], errors='coerce').fillna(0)
 
@@ -61,7 +64,10 @@ def initialize_and_train_pipeline():
         X_scaled = scaler.fit_transform(X_combined)
 
         X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
-        knn_model = KNeighborsClassifier(n_neighbors=5)
+        
+        # Adjust neighbors dynamically if dataset is extremely small
+        n_neighbors = min(5, len(X_train))
+        knn_model = KNeighborsClassifier(n_neighbors=n_neighbors)
         knn_model.fit(X_train, y_train)
         
         accuracy = knn_model.score(X_test, y_test) * 100
@@ -109,7 +115,8 @@ By compiling mathematical text features alongside a physical policy impact ratin
 st.markdown("---")
 
 if error_msg:
-    st.error(f"❌ Initialization Error: Could not read 'cleaned_ai_policy_tracker.csv'. Details: {error_msg}")
+    # Fixed: Streamlined error code output to look for uniform dataset name
+    st.error(f"❌ Initialization Error: Could not read 'ai_policy_tracker_2026.csv'. Details: {error_msg}")
 else:
     col_input, col_output = st.columns([1.1, 0.9], gap="large")
     
@@ -183,7 +190,7 @@ else:
             st.markdown("""
             ```text
             [ Text Entry Stream ] ──> [ TF-IDF Processing ] ──> [ SVD Dimensional Compression ] ──┐
-                                                                                                 ├──> [ Scaler Engine ] ──> [ KNN Engine ]
+                                                                                                  ├──> [ Scaler Engine ] ──> [ KNN Engine ]
             [ Slider Metric Value ] ─────────────────────────────────────────────────────────────┘
             ```
             """)
