@@ -190,5 +190,5 @@ Special thanks to the open-source community and contributors whose tools and lib
 
 If you find this project useful, consider giving it a ⭐ on GitHub.
 
-##Live Demo Page:
+## Live Demo Page
 https://ai-policy-tracker-4f46mjguugmzjcnpmbfhlt.streamlit.app/
